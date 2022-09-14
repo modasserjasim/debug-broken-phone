@@ -10,15 +10,15 @@
 </head>
 
 <body>
-    <header>
+    <header class="text-center">
         <h1>Welcome to my Phone Hunter!</h1>
     </header>
     <main class="container">
-        <section>
-            <div class="mb-3 w-50">
+        <section class="text-center mx-auto w-50">
+            <div class="mb-3 d-flex justify-content-center gap-2 ">
                 <input id="search-field" type="email" class="form-control" id="exampleFormControlInput1"
                     placeholder="search your phone">
-                <div id="btn-search" class="btn btn-primary">Search</div>
+                <button id="btn-search" class="btn btn-primary">Search</button>
             </div>
         </section>
         <!-- loader -->
@@ -31,11 +31,13 @@
         </section>
         <!-- display Search Result -->
         <section>
+            
+            <div id="no-found-message" class="mt-4 d-none text-center">
+                <h3 class="text-warning">No Phone Found. Please try a new search</h3>
+            </div>
+            
             <div id="phones-container" class="row row-cols-1 row-cols-md-3 g-4">
 
-            </div>
-            <div id="no-found-message" class="mt-4 d-none">
-                <h3 class="text-warning">No Phone Found. Please try a new search</h3>
             </div>
             <div id="show-all" class="text-center d-none">
                 <div id="btn-show-all" class="btn btn-primary">Show All</div>
@@ -46,12 +48,12 @@
         <section>
             
             <!-- Modal -->
-            <div class="modal text-white fade" id="phoneDetailModal" tabindex="-1" aria-labelledby="phoneDetailModalLabel"
+            <div class="modal fade" id="phoneDetailModal" tabindex="-1" aria-labelledby="phoneDetailModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="phoneDetailModalLabel"></h5>
+                            <h5 class="modal-title" id="phoneDetailModalLabel">Welcome</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div id="phone-details" class="modal-body">

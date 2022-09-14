@@ -6,16 +6,18 @@ const loadPhones = async(searchText, dataLimit) =>{
 }
 
 const displayPhones = (phones, dataLimit) =>{
+    // console.log(phones);
     const phonesContainer = document.getElementById('phones-container');
-    // phonesContainer.textContent = '';
+    phonesContainer.textContent = '';
     // display 10 phones only 
     const showAll = document.getElementById('show-all');
     if(dataLimit && phones.length > 10) {
         phones = phones.slice(0, 10);
         showAll.classList.remove('d-none');
+        console.log(phones);
     }
     else{
-        showAll.classList.add('d-hidden');
+        showAll.classList.add('d-none');
     }
     
 
@@ -31,13 +33,13 @@ const displayPhones = (phones, dataLimit) =>{
     phones.forEach(phone =>{
         const phoneDiv  = document.createElement('div');
         phoneDiv.classList.add('col');
-        phonesContainer.innerHTML = `
+        phoneDiv.innerHTML = `
         <div class="card p-4">
-            <img src="${phone.images}" class="card-img-top" alt="...">
+            <img src="${phone.image}" height="400" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${phone.phone_name}</h5>
                 <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <button onclick="loadPhoneDetails('${phone.slug}')" href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#phoneDetailModal">Show Details</button>
+                <button onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#phoneDetailModal">Show Details</button>
                 
             </div>
         </div>
@@ -56,21 +58,21 @@ const processSearch = (dataLimit) =>{
 }
 
 // handle search button click
-document.getElementById('#btn-search').addEventListener('click', function(){
+document.getElementById('btn-search').addEventListener('click', function(){
     // start loader
     processSearch(10);
 })
 
 // search input field enter key handler
 document.getElementById('search-field').addEventListener('keypress', function (e) {
-    if (e.key === 'enter') {
+    if (e.key === 'Enter') {
         processSearch(10);
     }
 });
 
 const toggleSpinner = isLoading => {
     const loaderSection = document.getElementById('loader');
-    if(!isLoading){
+    if(isLoading){
         loaderSection.classList.remove('d-none')
     }
     else{
@@ -85,7 +87,7 @@ document.getElementById('btn-show-all').addEventListener('click', function(){
 })
 
 const loadPhoneDetails = async id =>{
-    const url =`www.openapi.programming-hero.com/api/phone/${id}`;
+    const url =`https://openapi.programming-hero.com/api/phone/${id}`;
     const res = await fetch(url);
     const data = await res.json();
     displayPhoneDetails(data.data);
@@ -96,13 +98,12 @@ const displayPhoneDetails = phone =>{
     const modalTitle = document.getElementById('phoneDetailModalLabel');
     modalTitle.innerText = phone.name;
     const phoneDetails = document.getElementById('phone-details');
-    console.log(phone.mainFeatures.sensors[0]);
     phoneDetails.innerHTML = `
-        <p>Release Date: ${phone.releaseDate}</p>
-        <p>Storage: ${phone.mainFeatures}</p>
+        <p>Release Date: ${phone.releaseDate ? phone.releaseDate : 'No date Found'}</p>
+        <p>Storage: ${phone.mainFeatures.storage}</p>
         <p>Others: ${phone.others ? phone.others.Bluetooth : 'No Bluetooth Information'}</p>
         <p>Sensor: ${phone.mainFeatures.sensors ? phone.mainFeatures.sensors[0] : 'no sensor'}</p>
-    `
+    `;
 }
 
 loadPhones('apple');
